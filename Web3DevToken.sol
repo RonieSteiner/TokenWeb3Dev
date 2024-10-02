@@ -40,8 +40,18 @@ contract Web3DevToken2 is ERC20 {
     }
 
     function membersList(uint256 startIndex, uint256 endIndex) public view returns (address[] memory) {
-        require(endIndex > startIndex, "End index must be greater than start index.");
-        require(endIndex <= memberAddresses.length, "End index out of bounds. To know the number of indices, use the function membersQuantity.");
+        require(
+            endIndex > startIndex,
+            "End index must be greater than start index."
+        );
+        require(
+            endIndex <= memberAddresses.length,
+            "End index out of bounds. To know the number of indices, use the function membersQuantity."
+        );
+        require(
+            (endIndex - startIndex) < 100,
+            "The maximum number of indices to show is 100"
+        );
 
         uint256 length = endIndex - startIndex;
         address[] memory partialList = new address;
