@@ -20,7 +20,7 @@ contract Web3DevToken2 is ERC20, Ownable {
 
     constructor() ERC20("Web3DevToken2", "W3DT") {
         _mint(msg.sender, invitesPerAccount);
-        members[msg.sender] = Member(msg.sender, true, invitesPerAccount, false,0,block.timestamp);
+        members[msg.sender] = Member(msg.sender, true, invitesPerAccount, false, 0, block.timestamp);
     }
 
     function invite(address account) public {
@@ -39,22 +39,23 @@ contract Web3DevToken2 is ERC20, Ownable {
     }
 
     function checkMember(address account) public view returns (bool) {
-        require(members[account].isActive, "This address is not a member");
+        require(members[account].isMember, "This address is not a member");
         require(members[account].isBanned == false, "This address is banned from the community");
-        return true
+        return true;
     }
+
 
     function transfer(address, uint256) public pure override returns (bool) {
         revert("Transfers are disable!");
     }
 
     function banAccount(address account) public onlyOwner {
-        require(members[account].isActive, "This address is not an member");
+        require(members[account].isMember, "This address is not an member");
         members[account].isBanned = true; 
     }
 
     function unBanAccount(address account) public onlyOwner {
-        require(members[account].isActive, "This address is not an member");
+        require(members[account].isMember, "This address is not an member");
         members[account].isBanned = false; 
     }
 }
