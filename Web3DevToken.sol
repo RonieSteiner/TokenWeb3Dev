@@ -29,13 +29,13 @@ contract Web3DevToken2 is ERC20, Ownable {
         require(balanceOf(msg.sender) > 1, "You run out of invites!");
         require(account != msg.sender, "You can't invite yourself!");
         require(members[account].isMember == false , "The account that you are trying to invite is already a member.");
-        require(block.timestamp >= members[msg.sender].lastInvite + 1 days);
+        require(block.timestamp >= members[msg.sender].lastInvite + 1 days, "You need to wait at least 1 day to invite another person");
 
         _burn(msg.sender, 1);
         members[msg.sender].invites - 1;
         _mint(account, invitesPerAccount);
         members[account] = Member(msg.sender, true, invitesPerAccount, false,0,block.timestamp);
-        members[msg.sender].lastInvite = block.timestamp
+        members[msg.sender].lastInvite = block.timestamp;
     }
 
     function checkMember(address account) public view returns (bool) {
